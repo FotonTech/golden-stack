@@ -7,7 +7,7 @@
   "main": "src/index.ts",
   "scripts": {
     "copy-to-package": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\" scripts/copySchemaToPackage.js",
-    "graphql": "webpack --watch --progress --config webpack.config.graphql.js",
+    "graphql": "webpack --watch --progress --config webpack.config.js",
     "test": "jest --coverage --forceExit",
     "test:watch": "jest --watch",
     "update-schema": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\" scripts/updateSchema.js && yarn copy-to-package"
