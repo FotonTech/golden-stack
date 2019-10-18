@@ -1,0 +1,94 @@
+{
+  "name": "golden-stack",
+  "version": "0.0.1",
+  "private": true,
+  "description": "The Golden Stack - Foton Tech secrets and playground for bleeding edge concepts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FotonTech/golden-stack"
+  },
+  "license": "MIT",
+  "author": "Foton",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**"
+    ]
+  },
+  "scripts": {
+    "app:android": "yarn workspace @golden-stack/app android",
+    "app:clear": "yarn workspace @golden-stack/app clear",
+    "app:ios": "yarn workspace @golden-stack/app ios",
+    "app:jetify": "yarn workspace @golden-stack/app jetify",
+    "app:pod": "yarn workspace @golden-stack/app pod:install",
+    "app:redirect-ports": "yarn workspace @golden-stack/app redirect-ports",
+    "app:relay": "yarn workspace @golden-stack/app relay",
+    "app:shake": "yarn workspace @golden-stack/app shake",
+    "app:start": "yarn workspace @golden-stack/app start",
+    "dev": "concurrently -n web,graphql --kill-others \"yarn web\" \"yarn graphql\"",
+    "graphql": "yarn workspace @golden-stack/server graphql",
+    "lint": "eslint --fix --ext .js,.ts,.tsx",
+    "lint:ci": "eslint --quiet --ext .js,.ts,.tsx .",
+    "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
+    "prettier": "prettier",
+    "relay": "yarn app:relay && yarn web:relay",
+    "startup": "./scripts/startup.sh",
+    "test": "jest",
+    "test:server": "yarn workspace @golden-stack/server test",
+    "tsc": "tsc --pretty",
+    "update": "yarn update-schema && yarn relay",
+    "update-schema": "yarn workspace @golden-stack/server update-schema",
+    "web": "yarn workspace @golden-stack/web start",
+    "web:relay": "yarn workspace @golden-stack/web relay"
+  },
+  "lint-staged": {
+    "*.yml": [
+      "yarn prettier --write",
+      "git add"
+    ],
+    "*.{ts,tsx,js}": [
+      "yarn prettier --write",
+      "yarn lint",
+      "git add"
+    ],
+    "package.json": [
+      "yarn prettier --write",
+      "yarn sort-package-json",
+      "git add"
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@react-native-community/eslint-config": "^0.0.5",
+    "@typescript-eslint/eslint-plugin": "^2.1.0",
+    "@typescript-eslint/parser": "^2.1.0",
+    "concurrently": "^4.1.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "18.0.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-import-resolver-typescript": "^1.0.2",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.15.1",
+    "eslint-plugin-react-hooks": "^2.0.1",
+    "eslint-plugin-relay": "^1.3.10",
+    "husky": "^3.0.5",
+    "jest": "24.9.0",
+    "jest-cli": "24.9.0",
+    "jest-junit": "8.0.0",
+    "lerna": "^3.17.0",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2",
+    "sort-package-json": "1.22.1",
+    "typescript": "^3.6.3"
+  },
+  "peerDependencies": {
+    "lodash": "4.x"
+  }
+}

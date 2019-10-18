@@ -1,0 +1,17 @@
+**/__snapshots__
+**/build/**
+**/dist/**
+**/deploy/**
+/coverage/**
+/docs/**
+/jsdoc/**
+/templates/**
+/tests/bench/**
+/tests/fixtures/**
+/tests/performance/**
+/tmp/**
+/lib/rules/utils/unicode/is-combining-character.js
+test.js
+!.eslintrc.js
+**/node_modules/**
+**/__generated__/

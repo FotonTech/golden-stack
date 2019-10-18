@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventType queries should query all events 1`] = `
+Object {
+  "data": Object {
+    "events": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "description": "This is an awesome event #1",
+            "id": "FROZEN-ID",
+            "title": "Event #1",
+          },
+        },
+        Object {
+          "node": Object {
+            "description": "This is an awesome event #2",
+            "id": "FROZEN-ID",
+            "title": "Event #2",
+          },
+        },
+        Object {
+          "node": Object {
+            "description": "This is an awesome event #3",
+            "id": "FROZEN-ID",
+            "title": "Event #3",
+          },
+        },
+        Object {
+          "node": Object {
+            "description": "This is an awesome event #4",
+            "id": "FROZEN-ID",
+            "title": "Event #4",
+          },
+        },
+        Object {
+          "node": Object {
+            "description": "This is an awesome event #5",
+            "id": "FROZEN-ID",
+            "title": "Event #5",
+          },
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`EventType queries should query an event 1`] = `
+Object {
+  "data": Object {
+    "event": Object {
+      "description": "This is an awesome event #1",
+      "id": "FROZEN-ID",
+      "title": "Event #1",
+    },
+  },
+}
+`;
+
+exports[`EventType queries should search all events 1`] = `
+Object {
+  "data": Object {
+    "events": Object {
+      "edges": Array [
+        Object {
+          "node": Object {
+            "description": "two",
+            "id": "FROZEN-ID",
+            "title": "Event #4",
+          },
+        },
+        Object {
+          "node": Object {
+            "description": "This is an awesome event #5",
+            "id": "FROZEN-ID",
+            "title": "title two",
+          },
+        },
+      ],
+    },
+  },
+}
+`;

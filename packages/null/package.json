@@ -1,0 +1,10 @@
+{
+  "name": "@golden-stack/null",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\" src/index.ts"
+  },
+  "dependencies": {
+    "@golden-stack/babel-server": "*"
+  }
+}
