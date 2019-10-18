@@ -1,0 +1,13 @@
+{
+  "name": "@golden-stack/babel-jest",
+  "version": "0.0.1",
+  "dependencies": {
+    "babel-jest": "^24.9.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.5.5"
+  }
+}
