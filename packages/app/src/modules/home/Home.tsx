@@ -1,26 +1,12 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {SafeAreaView, StatusBar, View, Text} from 'react-native';
 
 import {graphql, createRefetchContainer, RelayProp} from 'react-relay';
-
-import styled from 'styled-components';
 
 import {Home_query} from './__generated__/Home_query.graphql';
 import {createQueryRenderer} from '@golden-stack/relay-app';
 
 const TOTAL_REFETCH_ITEMS = 10;
-
-const Wrapper = styled.ScrollView`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-  min-height: calc(100vh - 270px);
-  padding-bottom: 50px;
-  background: white;
-  overflow: hidden;
-`;
 
 interface Props {
   query: Home_query;
@@ -29,11 +15,18 @@ interface Props {
 
 const Home = (_: Props) => {
   return (
-    <Wrapper>
-      <Text>Golden Stack Home</Text>
-    </Wrapper>
+    <>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView>
+        <View>
+          <Text>Golden Stack Home</Text>
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
+
+export default Home;
 
 const HomeRefetchContainer = createRefetchContainer(
   Home,
@@ -68,8 +61,8 @@ const HomeRefetchContainer = createRefetchContainer(
 
 export default createQueryRenderer(HomeRefetchContainer, Home, {
   query: graphql`
-    query HomeQuery($first: Int!, $search: String!) {
-      ...Home_query
+    query HomeQuery($first: Int!, $search: String) {
+      ...Home_query @arguments(first: $first, search: $search)
     }
   `,
   variables: {first: TOTAL_REFETCH_ITEMS},
