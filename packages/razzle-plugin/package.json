@@ -1,0 +1,7 @@
+{
+  "name": "@golden-stack/razzle-plugin",
+  "version": "0.0.1",
+  "dependencies": {
+    "razzle-dev-utils": "^3.0.0"
+  }
+}
