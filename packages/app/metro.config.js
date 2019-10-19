@@ -14,7 +14,7 @@ const blacklist = require('metro-config/src/defaults/blacklist');
 
 const workspaces = getWorkspaces(__dirname);
 
-const packages = [];
+const packages = ['relay-app'];
 
 module.exports = {
   projectRoot: path.resolve(__dirname, '.'),

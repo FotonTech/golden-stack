@@ -27,13 +27,11 @@ interface Props extends RouterState {
 const Home = (props: Props) => {
   const { query } = props;
 
-  const homeComponent = () => (
+  return (
     <Wrapper>
       <span>Golden Stack Home</span>
     </Wrapper>
   );
-
-  return <Wrapper>{homeComponent()}</Wrapper>;
 };
 
 export const HomeRefetchContainer = createRefetchContainer(
