@@ -34,7 +34,7 @@
     "lint:ci": "eslint --quiet --ext .js,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
     "prettier": "prettier",
-    "relay": "yarn app:relay && yarn web:relay",
+    "relay": "yarn web:relay",
     "startup": "./scripts/startup.sh",
     "test": "jest",
     "test:server": "yarn workspace @golden-stack/server test",
@@ -86,7 +86,7 @@
     "lint-staged": "^9.2.5",
     "prettier": "^1.18.2",
     "sort-package-json": "1.22.1",
-    "typescript": "^3.6.3"
+    "typescript": "^3.7.2"
   },
   "peerDependencies": {
     "lodash": "4.x"

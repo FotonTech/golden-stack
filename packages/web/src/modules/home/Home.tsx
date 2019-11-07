@@ -48,6 +48,8 @@ export const HomeRefetchContainer = createRefetchContainer(
           edges {
             node {
               id
+              title
+              description
             }
           }
         }

@@ -5,9 +5,9 @@
     "babel-jest": "^24.9.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5"
+    "@babel/core": "^7.7.2"
   },
   "peerDependencies": {
-    "@babel/core": "^7.5.5"
+    "@babel/core": "^7.7.2"
   }
 }
