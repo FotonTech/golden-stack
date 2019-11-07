@@ -6,7 +6,7 @@ import { composeFragmentsToComponent } from '../relay/utils';
 
 const HomeQuery = graphql`
   query home_Home_Query($first: Int!, $search: String) {
-    ...Home_query
+    ...Home_query @arguments(first: $first, search: $search)
   }
 `;
 
