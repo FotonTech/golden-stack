@@ -34,7 +34,7 @@
     "lint:ci": "eslint --quiet --ext .js,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
     "prettier": "prettier",
-    "relay": "yarn web:relay",
+    "relay": "yarn app:relay && yarn web:relay",
     "startup": "./scripts/startup.sh",
     "test": "jest",
     "test:server": "yarn workspace @golden-stack/server test",

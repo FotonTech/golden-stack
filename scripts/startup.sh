@@ -16,4 +16,6 @@ cp web/.env.local web/.env
 
 cd ..
 
-yarn update
+#yarn update
+yarn update-schema
+yarn web:relay
