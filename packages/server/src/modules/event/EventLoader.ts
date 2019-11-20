@@ -37,7 +37,6 @@ export default class Event {
 
 const viewerCanSee = () => true;
 
-// TODO: investigate why we need to cast ids as any on the next line
 export const getLoader = () => new DataLoader<DataLoaderKey, IEvent>(ids => mongooseLoader(EventModel, ids as any));
 
 export const load = async (context: GraphQLContext, id: DataLoaderKey) => {

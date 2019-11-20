@@ -40,7 +40,10 @@ export function listRecordRemoveUpdater({ parentId, itemId, parentFieldName, sto
   const parentProxy = store.get(parentId);
   const items = parentProxy.getLinkedRecords(parentFieldName);
 
-  parentProxy.setLinkedRecords(items.filter(record => record._dataID !== itemId), parentFieldName);
+  parentProxy.setLinkedRecords(
+    items.filter(record => record._dataID !== itemId),
+    parentFieldName,
+  );
 }
 
 export function listRecordAddUpdater({ parentId, item, type, parentFieldName, store }: ListRecordAddUpdaterOptions) {

@@ -1,0 +1,108 @@
+name: golden-stack CI/CD pushes
+
+on:
+  push:
+    branches-ignore:
+      - 'master'
+
+jobs:
+  # LINT
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.13]
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: yarn
+        run: |
+          yarn config set unsafe-disable-integrity-migration true -g
+          yarn install --frozen-lockfile --production=false --non-interactive --cache-folder node_modules_cache
+      - name: Relay
+        run: |
+          yarn relay
+      - name: Lint
+        run: |
+          yarn lint:ci
+
+  # TEST
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.13]
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: yarn
+        run: |
+          yarn config set unsafe-disable-integrity-migration true -g
+          yarn install --frozen-lockfile --production=false --non-interactive --cache-folder node_modules_cache
+      - name: Relay
+        run: |
+          yarn relay
+      - name: Test
+        run: |
+          yarn test:server --ci --maxWorkers=4 --reporters=default --reporters=jest-junit
+        env:
+          JEST_JUNIT_OUTPUT_DIR: ./reports/junit/report.xml
+#      - uses: codecov/codecov-action@v1.0.2
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+
+# BUILD SERVER
+#  build-server:
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        node-version: [12.13]
+#
+#    steps:
+#      - uses: actions/checkout@master
+#      - uses: actions/setup-node@master
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#      - name: yarn
+#        run: |
+#          yarn config set unsafe-disable-integrity-migration true -g
+#          yarn install --frozen-lockfile --production=false --non-interactive --cache-folder node_modules_cache
+#      - name: Build Server
+#        run: |
+#          cp ./packages/server/.env.staging ./packages/server/.env
+#          yarn build:server
+
+# BUILD WEB
+#  build-web:
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        node-version: [12.13]
+#
+#    steps:
+#      - uses: actions/checkout@master
+#      - uses: actions/setup-node@master
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#      - name: yarn
+#        run: |
+#          yarn config set unsafe-disable-integrity-migration true -g
+#          yarn install --frozen-lockfile --production=false --non-interactive --cache-folder node_modules_cache
+#      - name: Relay
+#        run: |
+#          yarn web:relay
+#      - name: Build Web
+#        run: |
+#          cp ./packages/web/.env.staging ./packages/web/.env.production
+#          yarn build:web
