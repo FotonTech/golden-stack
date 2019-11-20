@@ -9,9 +9,10 @@ process.env.NODE_ENV = 'test';
 const mongooseOptions = {
   autoIndex: false,
   autoReconnect: false,
-  connectTimeoutMS: 10000,
+  connectTimeoutMS: 20000,
   useNewUrlParser: true,
   useCreateIndex: true,
+  useUnifiedTopology: true,
 };
 
 export * from './createResource/createRows';

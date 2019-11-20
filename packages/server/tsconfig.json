@@ -9,8 +9,5 @@
     "package.json"
   ],
   "extends": "../../tsconfig.json",
-  "include": [
-    "src",
-    "test"
-  ]
+  "include": ["src", "test", "src/*ts", "src/**/*ts"]
 }
