@@ -18,4 +18,4 @@ cd ..
 
 #yarn update
 yarn update-schema
-yarn web:relay
+yarn relay
