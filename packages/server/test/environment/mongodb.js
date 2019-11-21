@@ -15,7 +15,7 @@ class MongoDbEnvironment extends NodeEnvironment {
         // dbName: MONGO_DB_NAME,
       },
       binary: {
-        version: '4.0.12',
+        version: '4.0.13',
       },
       // debug: true,
       autoStart: false,
@@ -26,7 +26,7 @@ class MongoDbEnvironment extends NodeEnvironment {
     await super.setup();
     // console.error('\n# MongoDB Environment Setup #\n');
     await this.mongod.start();
-    this.global.__MONGO_URI__ = await this.mongod.getConnectionString();
+    this.global.__MONGO_URL__ = await this.mongod.getConnectionString();
     this.global.__MONGO_DB_NAME__ = await this.mongod.getDbName();
     this.global.__COUNTERS__ = {
       event: 0,

@@ -28,6 +28,7 @@
     "app:relay": "yarn workspace @golden-stack/app relay",
     "app:shake": "yarn workspace @golden-stack/app shake",
     "app:start": "yarn workspace @golden-stack/app start",
+    "build:server": "yarn workspace @golden-stack/server build",
     "dev": "concurrently -n web,graphql --kill-others \"yarn web\" \"yarn graphql\"",
     "graphql": "yarn workspace @golden-stack/server graphql",
     "lint": "eslint --fix --ext .js,.ts,.tsx",
