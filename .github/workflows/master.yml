@@ -1,9 +1,9 @@
-name: golden-stack CI/CD pushes
+name: golden-stack CI/CD master
 
 on:
   push:
-    branches-ignore:
-      - 'master'
+    branches:
+      - master
 
 jobs:
   # LINT
@@ -85,6 +85,7 @@ jobs:
         run: |
           cp ./packages/server/.env.staging ./packages/server/.env
           yarn build:server
+
   # BUILD WEB
   #  build-web:
   #    name: Build Web
@@ -109,3 +110,33 @@ jobs:
   #        run: |
   #          cp ./packages/web/.env.staging ./packages/web/.env.production
   #          yarn build:web
+
+  # DEPLOY SERVER
+  deploy-server:
+    name: Deploy Server
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.13]
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: yarn
+        run: |
+          yarn config set unsafe-disable-integrity-migration true -g
+          yarn install --frozen-lockfile --production=false --non-interactive --cache-folder node_modules_cache
+      - name: Build Server
+        run: |
+          cp ./packages/server/.env.staging ./packages/server/.env
+          yarn build:server
+      - name: Install Now CLI
+        run: |
+          sudo npm install --global --unsafe-perm now
+      - name: Deploy to Now
+        run: |
+          now --token $ZEIT_TOKEN --local-config .now/now.json --target production
+        env:
+          ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
