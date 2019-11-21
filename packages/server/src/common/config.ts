@@ -7,11 +7,13 @@ const cwd = process.cwd();
 
 const root = path.join.bind(cwd);
 
-dotenvSafe.config({
-  allowEmptyValues: process.env.NODE_ENV !== 'production',
-  path: root('.env'),
-  sample: root('.env.example'),
-});
+if (!process.env.NOW_REGION) {
+  dotenvSafe.config({
+    allowEmptyValues: process.env.NODE_ENV !== 'production',
+    path: root('.env'),
+    sample: root('.env.example'),
+  });
+}
 
 // Server
 export const GRAPHQL_PORT = envVar.get('GRAPHQL_PORT', '5001').asPortNumber();
