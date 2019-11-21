@@ -6,6 +6,7 @@
   "author": "Foton",
   "main": "src/index.ts",
   "scripts": {
+    "build": "rm -rf dist/* && babel src --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\" --ignore *.spec.js --out-dir dist --copy-files --source-maps --verbose",
     "copy-to-package": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\" scripts/copySchemaToPackage.js",
     "graphql": "webpack --watch --progress --config webpack.config.js",
     "test": "jest --coverage --forceExit",
