@@ -132,7 +132,11 @@ jobs:
         run: |
           cp ./packages/server/.env.staging ./packages/server/.env
           yarn build:server
-      - name: Deploy on Zeit
-        uses: actions/zeit-now@master
+      - name: Install Now CLI
+        run: |
+          sudo npm install --global --unsafe-perm now
+      - name: Deploy to Now
+        run: |
+          now --token $ZEIT_TOKEN --local-config .now/now.json --target production
         env:
           ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
