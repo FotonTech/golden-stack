@@ -114,6 +114,7 @@ jobs:
   # DEPLOY SERVER
   deploy-server:
     name: Deploy Server
+    needs: [lint, test, build-server]
     runs-on: ubuntu-latest
     strategy:
       matrix:
