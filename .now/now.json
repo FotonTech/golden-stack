@@ -6,7 +6,7 @@
   "builds": [
     {
       "src": "/packages/server/dist/graphql/index.js",
-      "use": "@now/node-server"
+      "use": "@now/node"
     }
   ],
   "routes": [{
