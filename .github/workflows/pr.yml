@@ -8,6 +8,7 @@ on:
 jobs:
   # LINT
   lint:
+    name: Lint all packages
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,6 +32,7 @@ jobs:
 
   # TEST
   test:
+    name: Test Server
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -58,51 +60,79 @@ jobs:
           yarn test:server --ci --maxWorkers=4 --reporters=default --reporters=jest-junit
         env:
           JEST_JUNIT_OUTPUT_DIR: ./reports/junit/report.xml
-#      - uses: codecov/codecov-action@v1.0.2
-#        with:
-#          token: ${{ secrets.CODECOV_TOKEN }}
+  #      - uses: codecov/codecov-action@v1.0.2
+  #        with:
+  #          token: ${{ secrets.CODECOV_TOKEN }}
 
-# BUILD SERVER
-#  build-server:
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        node-version: [12.13]
-#
-#    steps:
-#      - uses: actions/checkout@master
-#      - uses: actions/setup-node@master
-#        with:
-#          node-version: ${{ matrix.node-version }}
-#      - name: yarn
-#        run: |
-#          yarn config set unsafe-disable-integrity-migration true -g
-#          yarn install --frozen-lockfile --production=false --non-interactive --cache-folder node_modules_cache
-#      - name: Build Server
-#        run: |
-#          cp ./packages/server/.env.staging ./packages/server/.env
-#          yarn build:server
+  # BUILD SERVER
+  build-server:
+    name: Build Server
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.13]
 
-# BUILD WEB
-#  build-web:
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        node-version: [12.13]
-#
-#    steps:
-#      - uses: actions/checkout@master
-#      - uses: actions/setup-node@master
-#        with:
-#          node-version: ${{ matrix.node-version }}
-#      - name: yarn
-#        run: |
-#          yarn config set unsafe-disable-integrity-migration true -g
-#          yarn install --frozen-lockfile --production=false --non-interactive --cache-folder node_modules_cache
-#      - name: Relay
-#        run: |
-#          yarn web:relay
-#      - name: Build Web
-#        run: |
-#          cp ./packages/web/.env.staging ./packages/web/.env.production
-#          yarn build:web
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: yarn
+        run: |
+          yarn config set unsafe-disable-integrity-migration true -g
+          yarn install --frozen-lockfile --production=false --non-interactive --cache-folder node_modules_cache
+      - name: Build Server
+        run: |
+          cp ./packages/server/.env.staging ./packages/server/.env
+          yarn build:server
+
+  # BUILD WEB
+  #  build-web:
+  #    name: Build Web
+  #    runs-on: ubuntu-latest
+  #    strategy:
+  #      matrix:
+  #        node-version: [12.13]
+  #
+  #    steps:
+  #      - uses: actions/checkout@master
+  #      - uses: actions/setup-node@master
+  #        with:
+  #          node-version: ${{ matrix.node-version }}
+  #      - name: yarn
+  #        run: |
+  #          yarn config set unsafe-disable-integrity-migration true -g
+  #          yarn install --frozen-lockfile --production=false --non-interactive --cache-folder node_modules_cache
+  #      - name: Relay
+  #        run: |
+  #          yarn web:relay
+  #      - name: Build Web
+  #        run: |
+  #          cp ./packages/web/.env.staging ./packages/web/.env.production
+  #          yarn build:web
+
+  # BUILD SERVER
+  deploy-server:
+    name: Deploy Server
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.13]
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: yarn
+        run: |
+          yarn config set unsafe-disable-integrity-migration true -g
+          yarn install --frozen-lockfile --production=false --non-interactive --cache-folder node_modules_cache
+      - name: Build Server
+        run: |
+          cp ./packages/server/.env.staging ./packages/server/.env
+          yarn build:server
+      - name: Deploy on Zeit
+        uses: actions/zeit-now@master
+        env:
+          ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}

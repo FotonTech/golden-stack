@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { MONGO_URI } from './config';
+import { MONGO_URL } from './config';
 
 declare module 'mongoose' {
   interface ConnectionBase {
@@ -36,7 +36,7 @@ export default function connectDatabase() {
         resolve();
       });
 
-    mongoose.connect(MONGO_URI, {
+    mongoose.connect(MONGO_URL, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,

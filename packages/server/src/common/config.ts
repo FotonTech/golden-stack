@@ -17,8 +17,8 @@ dotenvSafe.config({
 export const GRAPHQL_PORT = envVar.get('GRAPHQL_PORT', '5001').asPortNumber();
 
 // Export some settings that should always be defined
-export const MONGO_URI = envVar
-  .get('MONGO_URI')
+export const MONGO_URL = envVar
+  .get('MONGO_URL')
   .required()
   .asString();
 

@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "name": "golden-stack",
+  "scope": "fotontech",
+  "alias": ["golden-stack.now.sh"],
+  "builds": [
+    {
+      "src": "/packages/server/dist/graphql/index.js",
+      "use": "@now/node-server"
+    }
+  ],
+  "routes": [{
+    "src": "/.*",
+    "dest": "/packages/server/dist/graphql/index.js"
+  }],
+  "env": {
+    "NODE_ENV": "production",
+    "GRAPHQL_PORT": "5001",
+    "RELEASE_STAGE": "production"
+  }
+}
