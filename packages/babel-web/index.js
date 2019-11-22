@@ -32,8 +32,9 @@ function preset(api, { target = 'node' }) {
       '@babel/plugin-proposal-class-properties',
       '@babel/plugin-proposal-export-default-from',
       '@babel/plugin-proposal-export-namespace-from',
+      '@babel/plugin-proposal-optional-chaining',
     ],
-    // TODO - does a preset allow such kind of config preset?
+    // FIXME does a preset allow such kind of config preset?
     env: {
       test: {
         presets: ['@babel/preset-react', ['@babel/preset-env', presetEnvOptions], '@babel/preset-typescript'],

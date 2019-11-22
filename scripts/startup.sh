@@ -13,9 +13,8 @@ cd ./packages
 cp server/.env.local server/.env
 #cp app/.env.local app/.env
 cp web/.env.local web/.env
+cp web-razzle/.env.local web-razzle/.env
 
 cd ..
 
-#yarn update
-yarn update-schema
-yarn relay
+yarn update
