@@ -15,11 +15,18 @@ import RelayEnvironment from './RelayEnvironment';
 // Uses the custom router setup to define a router instance that we can pass through context
 // const router = createRouter(routes);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <RelayEnvironmentProvider environment={RelayEnvironment}>
-    <App />
-  </RelayEnvironmentProvider>,
-);
+const rootEl = document.getElementById('root');
+
+if (rootEl) {
+  ReactDOM.render(
+    <RelayEnvironmentProvider environment={RelayEnvironment}>
+      <App />
+    </RelayEnvironmentProvider>,
+    rootEl,
+  );
+} else {
+  throw new Error('wrong rootEl');
+}
 
 // ReactDOM.createRoot(document.getElementById('root')).render(
 //   <RelayEnvironmentProvider environment={RelayEnvironment}>

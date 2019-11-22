@@ -16,7 +16,7 @@ const srcPath = path.join(cwd, 'src');
 module.exports = {
   mode: 'development',
   context: path.resolve(cwd, './'),
-  entry: ['./src/index.tsx', 'webpack-plugin-serve/client'],
+  entry: ['react-hot-loader/patch', './src/index.tsx', 'webpack-plugin-serve/client'],
   devtool: 'cheap-eval-source-map',
   output: {
     path: outputPath,
@@ -27,6 +27,9 @@ module.exports = {
   resolve: {
     modules: [srcPath, 'node_modules'],
     extensions: ['.ts', '.tsx', '.js', '.json', '.mjs'],
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
   },
   module: {
     rules: [

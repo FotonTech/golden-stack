@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.7.2",
+    "@hot-loader/react-dom": "^16.11.0",
     "core-js": "^3.4.1",
     "formik": "^2.0.4",
     "graphql": "^14.5.5",
@@ -22,6 +23,7 @@
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "react-error-boundary": "^1.2.5",
+    "react-hot-loader": "^4.12.18",
     "react-relay": "7.0.0",
     "react-router": "^5.1.2",
     "react-router-config": "^5.1.1",

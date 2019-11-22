@@ -28,6 +28,7 @@ function preset(api, { target = 'node' }) {
         },
       ],
       // 'lodash',
+      'react-hot-loader/babel',
       '@babel/plugin-proposal-object-rest-spread',
       '@babel/plugin-proposal-class-properties',
       '@babel/plugin-proposal-export-default-from',
