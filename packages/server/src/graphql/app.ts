@@ -63,14 +63,12 @@ app.use(convert(cors({ maxAge: 86400, origin: '*' })));
 
 router.all('/graphql', multer({ storage, limits }).any());
 
-if (process.env.NODE_ENV !== 'production') {
-  router.all(
-    '/playground',
-    koaPlayground({
-      endpoint: '/graphql',
-    }),
-  );
-}
+router.all(
+  '/playground',
+  koaPlayground({
+    endpoint: '/graphql',
+  }),
+);
 
 // Middleware to get dataloaders
 app.use((ctx, next) => {
