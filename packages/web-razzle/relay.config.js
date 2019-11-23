@@ -1,4 +1,4 @@
-const packages = ['web'];
+const packages = ['web-razzle'];
 
 module.exports = {
   watchman: false,
