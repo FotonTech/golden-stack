@@ -4,6 +4,9 @@ import { graphql, createRefetchContainer } from 'react-relay';
 
 import { createQueryRenderer } from '@golden-stack/relay-web';
 
+import SEO from './SEO';
+import placeholder from './assets/placeholder.png';
+
 import { App_query } from './__generated__/App_query.graphql';
 
 type Props = {
@@ -24,6 +27,16 @@ const App = ({ query }: Props) => {
 
   return (
     <div>
+      <SEO
+        title={'Event Title'}
+        description={'Event Description'}
+        imageUrl={placeholder}
+        url={'/'}
+        label1={'Date'}
+        data1={Date.now().toString()}
+        label2={'Where'}
+        data2={'Rua xyz, Floripa'}
+      />
       <span>Golden Stack</span>
       <br />
       {events && Array.isArray(events.edges) && events.edges.length > 0
