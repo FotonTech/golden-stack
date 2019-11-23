@@ -15,7 +15,7 @@ class MongoDbEnvironment extends NodeEnvironment {
         // dbName: MONGO_DB_NAME,
       },
       binary: {
-        version: '4.0.13',
+        version: '4.2.1',
       },
       // debug: true,
       autoStart: false,

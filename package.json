@@ -29,13 +29,14 @@
     "app:shake": "yarn workspace @golden-stack/app shake",
     "app:start": "yarn workspace @golden-stack/app start",
     "build:server": "yarn workspace @golden-stack/server build",
+    "build:web": "yarn workspace @golden-stack/web build",
     "dev": "concurrently -n web,graphql --kill-others \"yarn web\" \"yarn graphql\"",
     "graphql": "yarn workspace @golden-stack/server graphql",
     "lint": "eslint --fix --ext .js,.ts,.tsx",
     "lint:ci": "eslint --quiet --ext .js,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
     "prettier": "prettier",
-    "relay": "yarn web:relay",
+    "relay": "yarn web:relay && yarn web-razzle:relay",
     "startup": "./scripts/startup.sh",
     "test": "jest",
     "test:server": "yarn workspace @golden-stack/server test",
@@ -43,6 +44,7 @@
     "update": "yarn update-schema && yarn relay",
     "update-schema": "yarn workspace @golden-stack/server update-schema",
     "web": "yarn workspace @golden-stack/web start",
+    "web-razzle:relay": "yarn workspace @golden-stack/web-razzle relay",
     "web:relay": "yarn workspace @golden-stack/web relay"
   },
   "lint-staged": {

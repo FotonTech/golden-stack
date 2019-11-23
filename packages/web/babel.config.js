@@ -1,3 +1,3 @@
 module.exports = {
-  presets: ['module:@golden-stack/babel-web'],
+  presets: [['module:@golden-stack/babel-web', { target: 'web' }]],
 };
