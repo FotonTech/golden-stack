@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.7.2",
+    "@golden-stack/relay-web": "*",
     "@hot-loader/react-dom": "^16.11.0",
     "core-js": "^3.4.1",
     "formik": "^2.0.4",
