@@ -5,7 +5,7 @@ The Golden Stack - Foton Tech secrets and playground for bleeding edge concepts.
 ## Main features
 
 - Server-side rendering (SSR) with [Razzle](https://github.com/jaredpalmer/razzle)
-- [Relay](https://github.com/facebook/relay) with SRR
+- [Relay](https://github.com/facebook/relay) with SSR
 - Routing with [Found](https://github.com/4Catalyzer/found)
 
 
