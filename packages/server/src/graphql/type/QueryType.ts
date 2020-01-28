@@ -15,7 +15,7 @@ export default new GraphQLObjectType<any, GraphQLContext, any>({
     node: NodeField,
     nodes: NodesField,
 
-    /* EVENTS */
+    /* EVENT */
     events: {
       type: GraphQLNonNull(EventConnection.connectionType),
       args: {
@@ -35,6 +35,6 @@ export default new GraphQLObjectType<any, GraphQLContext, any>({
       },
       resolve: async (_, { id }, context) => await EventLoader.load(context, fromGlobalId(id).id),
     },
-    /* EVENTS */
+    /* EVENT */
   }),
 });
