@@ -1,3 +1,3 @@
-module.exports = {
-  presets: ['module:@golden-stack/babel-web'],
-};
+const config = require('@golden-stack/babel');
+
+module.exports = config;

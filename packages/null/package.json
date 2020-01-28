@@ -5,6 +5,6 @@
     "start": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\" src/index.ts"
   },
   "dependencies": {
-    "@golden-stack/babel-server": "*"
+    "@golden-stack/babel": "*"
   }
 }

@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
+const pkg = require('../package');
+
 module.exports = () => {
-  // eslint-disable-next-line
-  console.log('# GLOBAL TEST TEARDOWN #');
+  console.log(`# ${pkg.name.toUpperCase()} TEST TEARDOWN #`);
 };
