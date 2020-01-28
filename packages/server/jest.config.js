@@ -18,7 +18,4 @@ module.exports = {
   },
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(js|jsx|ts|tsx)?$',
   moduleFileExtensions: ['ts', 'js', 'tsx'],
-  moduleNameMapper: {
-    '^@confy/roles$': '<rootDir>/../roles/src/Roles.ts',
-  },
 };
