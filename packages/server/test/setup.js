@@ -1,7 +1,10 @@
+/* eslint-disable no-console */
 const path = require('path');
+
+const pkg = require('../package');
+
 module.exports = () => {
-  // eslint-disable-next-line
-  console.log('\n# GLOBAL TEST SETUP #');
+  console.log(`\n# ${pkg.name.toUpperCase()} TEST SETUP #`);
 
   // normalize timezone to UTC
   process.env.TZ = 'UTC';
