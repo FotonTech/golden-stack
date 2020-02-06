@@ -103,6 +103,6 @@ type Query {
     """The IDs of objects"""
     ids: [ID!]!
   ): [Node]!
-  events(after: String, first: Int, before: String, last: Int, search: String): EventConnection!
   event(id: ID!): Event
+  events(after: String, first: Int, before: String, last: Int, search: String): EventConnection!
 }
