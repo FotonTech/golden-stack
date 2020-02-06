@@ -1,13 +1,12 @@
 name: Golden Stack Server Deploy on Staging
 
-on: [push]
-#on:
-#  push:
-#    branches:
-#      - master
-#    paths:
-#      - 'packages/server/**'
-#      - 'packages/babel/**'
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'packages/server/**'
+      - 'packages/babel/**'
 
 jobs:
   # TEST SERVER
