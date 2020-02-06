@@ -1,12 +1,13 @@
 name: Golden Stack Server Deploy on Staging
 
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'packages/server/**'
-      - 'packages/babel/**'
+on: [push]
+#on:
+#  push:
+#    branches:
+#      - master
+#    paths:
+#      - 'packages/server/**'
+#      - 'packages/babel/**'
 
 jobs:
   # TEST SERVER
@@ -89,6 +90,6 @@ jobs:
           sudo npm install --global --unsafe-perm now
       - name: Deploy to Now
         run: |
-          now --token $ZEIT_TOKEN --local-config .now/now.json --prod
+          now --token $ZEIT_TOKEN --local-config .now/now.json --prod --confirm
         env:
           ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
