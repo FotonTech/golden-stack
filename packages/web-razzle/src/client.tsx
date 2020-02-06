@@ -6,7 +6,7 @@ import createInitialFarceRouter from 'found/lib/createInitialFarceRouter';
 import { Resolver } from 'found-relay';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client';
+import RelayClientSSR from 'react-relay-network-modern-ssr/node8/client';
 import { RelayEnvironmentProvider } from 'react-relay/hooks';
 
 import { createRelayEnvironmentSsr } from '@golden-stack/relay-ssr';

@@ -14,7 +14,7 @@ import { renderToString } from 'react-dom/server';
 import { getFarceResult } from 'found/lib/server';
 import { Resolver } from 'found-relay';
 
-import RelayServerSSR, { SSRCache } from 'react-relay-network-modern-ssr/lib/server';
+import RelayServerSSR, { SSRCache } from 'react-relay-network-modern-ssr/node8/server';
 import { ServerStyleSheet } from 'styled-components';
 
 import { createRelayEnvironmentSsr } from '@golden-stack/relay-ssr';
