@@ -1,6 +1,6 @@
 const path = require('path');
 
-const siblingPackages = [];
+const siblingPackages = ['relay-ssr', 'relay-web'];
 
 module.exports = {
   plugins: [

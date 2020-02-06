@@ -6,6 +6,7 @@ import helmet from 'koa-helmet';
 import Router from 'koa-router';
 import koaLogger from 'koa-logger';
 import proxy from 'koa-better-http-proxy';
+import { RelayEnvironmentProvider } from 'react-relay/hooks';
 
 import React from 'react';
 
@@ -16,17 +17,19 @@ import { Resolver } from 'found-relay';
 import RelayServerSSR, { SSRCache } from 'react-relay-network-modern-ssr/lib/server';
 import { ServerStyleSheet } from 'styled-components';
 
-import { createRelayEnvironment, EnvironmentProvider } from './relay/Environment';
-import { GRAPHQL_URL } from './config';
+import { createRelayEnvironmentSsr } from '@golden-stack/relay-ssr';
+
+import { version } from '../package.json';
+
+import { GRAPHQL_URL, sessionCookieName } from './config';
 
 import { historyMiddlewares, routeConfig, render } from './router/router';
 import { NotFound } from './middlewares';
 import indexHtml from './index.html';
+import { removeCookie } from './utils';
 
 // We cant use env-var here as this is defined by razzle on build-time
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
-
-const sessionCookieName = 'golden-stack:sess';
 
 const router = new Router();
 
@@ -51,19 +54,35 @@ function simplifyRelayData(relayData: SSRCache) {
   });
 }
 
+function renderHtml(element: React.ReactElement) {
+  const sheet = new ServerStyleSheet();
+  try {
+    const html = renderToString(sheet.collectStyles(element));
+    const styleTags = sheet.getStyleTags();
+    return { html, styleTags };
+  } finally {
+    sheet.seal();
+  }
+}
+
 router.get('/*', async ctx => {
   // TODO - only respond to html requests
   const relaySsr = new RelayServerSSR();
 
-  const environment = createRelayEnvironment(relaySsr, GRAPHQL_URL, [
-    next => req => {
-      const sessionCookie = ctx.cookies.get(sessionCookieName);
-      if (sessionCookie) {
-        req.fetchOpts.headers.cookie = `${sessionCookieName}=${sessionCookie}`;
-      }
-      return next(req);
-    },
-  ]);
+  const environment = createRelayEnvironmentSsr(
+    relaySsr,
+    GRAPHQL_URL,
+    [
+      next => req => {
+        const sessionCookie = ctx.cookies.get(sessionCookieName);
+        if (sessionCookie) {
+          req.fetchOpts.headers.cookie = `${sessionCookieName}=${sessionCookie}`;
+        }
+        return next(req);
+      },
+    ],
+    version,
+  );
 
   const result = await getFarceResult({
     url: ctx.request.url,
@@ -79,19 +98,30 @@ router.get('/*', async ctx => {
   }
 
   const { html, styleTags } = renderHtml(
-    <EnvironmentProvider environment={environment}>{result.element}</EnvironmentProvider>,
+    <RelayEnvironmentProvider environment={environment}>{result.element}</RelayEnvironmentProvider>,
   );
 
   try {
-    const relayData = simplifyRelayData(await relaySsr.getCache());
+    const relayCache = await relaySsr.getCache();
+    const relayData = simplifyRelayData(relayCache);
     ctx.status = result.status;
     ctx.body = indexHtml({ assets, styleTags, relayData, html });
   } catch (err) {
     // eslint-disable-next-line no-console
     console.log('relaySsr getCache err:', err);
-    ctx.status = 302;
-    ctx.response.redirect('/');
-    return;
+
+    if ([400, 401, 402, 403, 404].includes(err.res.status)) {
+      removeCookie(ctx);
+      ctx.redirect('/');
+      return;
+    }
+
+    // TODO - handle 5xx
+
+    // TODO - render beautiful error page
+    ctx.response.type = 'text';
+    ctx.status = 500;
+    ctx.body = err.toString();
   }
 });
 
@@ -116,14 +146,3 @@ server
   .use(router.allowedMethods());
 
 export default server;
-
-function renderHtml(element: React.ReactElement) {
-  const sheet = new ServerStyleSheet();
-  try {
-    const html = renderToString(sheet.collectStyles(element));
-    const styleTags = sheet.getStyleTags();
-    return { html, styleTags };
-  } finally {
-    sheet.seal();
-  }
-}

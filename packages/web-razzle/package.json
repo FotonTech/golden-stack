@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@babel/core": "^7.8.3",
+    "@golden-stack/relay-ssr": "*",
+    "@golden-stack/relay-web": "*",
     "core-js": "^3.6.4",
     "date-fns": "^2.9.0",
     "farce": "^0.2.8",
@@ -35,6 +37,7 @@
     "react-relay-network-modern": "^4.0.4",
     "react-relay-network-modern-ssr": "^1.2.4",
     "relay-runtime": "7.0.0",
+    "serialize-javascript": "^2.1.2",
     "styled-components": "^4.4.1",
     "subscriptions-transport-ws": "^0.9.16"
   },
