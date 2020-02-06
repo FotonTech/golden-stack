@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "golden-stack",
   "scope": "fotontech",
   "alias": ["golden-stack.now.sh"],
   "builds": [
