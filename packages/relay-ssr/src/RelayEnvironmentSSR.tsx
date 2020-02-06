@@ -1,5 +1,7 @@
-import React, { ComponentType, useContext, FunctionComponent } from 'react';
-import hoistStatics from 'hoist-non-react-statics';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+import React from 'react';
+
 import {
   RelayNetworkLayer,
   urlMiddleware,
@@ -11,12 +13,16 @@ import {
   Middleware,
   MiddlewareSync,
   MiddlewareRaw,
-} from 'react-relay-network-modern';
+} from 'react-relay-network-modern/node8';
 import { Environment, RecordSource, Store } from 'relay-runtime';
-import RelayServerSSR from 'react-relay-network-modern-ssr/lib/server';
-import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client';
+import RelayServerSSR from 'react-relay-network-modern-ssr/node8/server';
+import RelayClientSSR from 'react-relay-network-modern-ssr/node8/client';
+
+import { version } from '../package.json';
 
 type MiddlewareList = Array<Middleware | MiddlewareSync | MiddlewareRaw | null>;
+
+let relayEnvironment = null;
 
 const BUILD = process.env.BUILD_TARGET;
 
@@ -32,12 +38,19 @@ export const BUILD_TARGET = {
 
 const oneMinute = 60 * 1000;
 
-export function createRelayEnvironment(relaySsr: RelayServerSSR | RelayClientSSR, url: string, extra?: MiddlewareList) {
+export function createRelayEnvironmentSsr(
+  relaySsr: RelayServerSSR | RelayClientSSR,
+  url: string,
+  extra?: MiddlewareList,
+  appVersion: string = version,
+) {
   const middlewares: MiddlewareList = [
     relaySsr.getMiddleware(),
     urlMiddleware({ url, ...(BUILD === BUILD_TARGET.CLIENT ? { credentials: 'same-origin' } : {}) }),
     next => req => {
       req.fetchOpts.headers.appplatform = BUILD === BUILD_TARGET.SERVER ? PLATFORM['WEB-SSR'] : PLATFORM.WEB;
+      req.fetchOpts.headers.appversion = appVersion;
+      req.fetchOpts.headers.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       return next(req);
     },
   ];
@@ -73,45 +86,26 @@ export function createRelayEnvironment(relaySsr: RelayServerSSR | RelayClientSSR
     );
   }
 
-  return new Environment({
-    network: new RelayNetworkLayer(middlewares),
-    store: new Store(new RecordSource()),
-  });
-}
+  const network = new RelayNetworkLayer(middlewares);
+  const source = new RecordSource();
+  const store = new Store(source);
 
-const EnvironmentContext = React.createContext<Environment | null>(null);
-
-interface EnvironmentProviderProps {
-  environment: Environment;
-  children: React.ReactElement;
-}
-
-export function EnvironmentProvider({ environment, children }: EnvironmentProviderProps) {
-  return <EnvironmentContext.Provider value={environment}>{children}</EnvironmentContext.Provider>;
-}
-
-export function useEnvironment() {
-  const environment = useContext(EnvironmentContext);
-  if (environment == null) {
-    throw new Error('useEnvironment has been used outside of a <EnvironmentProvider />');
+  // Make sure to create a new Relay Environment for every server-side request so that data
+  // isn't shared between connections (which would be bad)
+  if (typeof window === 'undefined') {
+    return new Environment({
+      network,
+      store,
+    });
   }
-  return environment;
-}
 
-export interface InjectedEnvironmentProps {
-  environment: Environment;
-}
+  // Reuse Relay environment on client-side
+  if (!relayEnvironment) {
+    relayEnvironment = new Environment({
+      network,
+      store,
+    });
+  }
 
-export function withEnvironment<Props>(
-  WrappedComponent: ComponentType<Props & InjectedEnvironmentProps>,
-): ComponentType<Props> {
-  const ConnectedToken: FunctionComponent<Props> = props => {
-    const environment = useContext(EnvironmentContext);
-    if (environment == null) {
-      throw new Error('withEnvironment has been used outside of a <EnvironmentProvider />');
-    }
-    return <WrappedComponent {...props} environment={environment} />;
-  };
-
-  return hoistStatics(ConnectedToken, WrappedComponent);
+  return relayEnvironment;
 }

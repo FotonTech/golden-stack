@@ -50,25 +50,21 @@
   },
   "lint-staged": {
     "*.yml": [
-      "yarn prettier --write",
-      "git add"
+      "yarn prettier --write"
     ],
     "*.{ts,tsx,js}": [
       "yarn prettier --write",
-      "yarn lint",
-      "git add"
+      "yarn lint"
     ],
     "package.json": [
       "yarn prettier --write",
-      "yarn sort-package-json",
-      "git add"
+      "yarn sort-package-json"
     ]
   },
   "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
-    "@react-native-community/eslint-config": "^0.0.5",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "concurrently": "^5.0.0",

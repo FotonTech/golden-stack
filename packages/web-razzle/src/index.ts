@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
+import 'core-js/stable';
 import http from 'http';
 
-global.window = {}; // Sandbox hack
 const app = require('./server').default;
 
 // Use `app#callback()` method here instead of directly
@@ -10,7 +10,7 @@ const app = require('./server').default;
 let currentHandler = app.callback();
 const server = http.createServer(currentHandler);
 
-server.listen(process.env.PORT || 3000, error => {
+server.listen(process.env.PORT || 3000, (error: Error) => {
   if (error) {
     console.log(error);
   }
@@ -19,10 +19,10 @@ server.listen(process.env.PORT || 3000, error => {
 });
 
 if (module.hot) {
-  console.log('✅  Server-side HMR Enabled!');
+  console.log('✅ Server-side HMR Enabled!');
 
   module.hot.accept('./server', () => {
-    console.log('🔁  HMR Reloading `./server`...');
+    console.log('🔁 HMR Reloading `./server`...');
 
     try {
       const newHandler = require('./server').default.callback();

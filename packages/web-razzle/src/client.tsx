@@ -6,17 +6,15 @@ import createInitialFarceRouter from 'found/lib/createInitialFarceRouter';
 import { Resolver } from 'found-relay';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client';
+import RelayClientSSR from 'react-relay-network-modern-ssr/node8/client';
+import { RelayEnvironmentProvider } from 'react-relay/hooks';
 
-import { createRelayEnvironment, EnvironmentProvider } from './relay/Environment';
+import { createRelayEnvironmentSsr } from '@golden-stack/relay-ssr';
+
 import { historyMiddlewares, render, routeConfig } from './router/router';
 
 (async () => {
-  const environment = createRelayEnvironment(
-    // eslint-disable-next-line no-underscore-dangle
-    new RelayClientSSR(window.__RELAY_PAYLOADS__),
-    '/graphql',
-  );
+  const environment = createRelayEnvironmentSsr(new RelayClientSSR(window.__RELAY_PAYLOADS__), '/graphql');
   const resolver = new Resolver(environment);
 
   const Router = await createInitialFarceRouter({
@@ -28,9 +26,9 @@ import { historyMiddlewares, render, routeConfig } from './router/router';
   });
 
   ReactDOM.hydrate(
-    <EnvironmentProvider environment={environment}>
+    <RelayEnvironmentProvider environment={environment}>
       <Router resolver={resolver} />
-    </EnvironmentProvider>,
+    </RelayEnvironmentProvider>,
     document.getElementById('root'),
   );
 })();

@@ -27,6 +27,9 @@ interface Props extends RouterState {
 const Home = (props: Props) => {
   const { query } = props;
 
+  // eslint-disable-next-line no-console
+  console.log('query', query);
+
   return (
     <Wrapper>
       <span>Golden Stack Home</span>
@@ -34,7 +37,7 @@ const Home = (props: Props) => {
   );
 };
 
-export const HomeRefetchContainer = createRefetchContainer(
+export default createRefetchContainer(
   Home,
   {
     query: graphql`
