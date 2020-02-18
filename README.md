@@ -13,6 +13,15 @@ The Golden Stack - Foton Tech secrets and playground for bleeding edge concepts.
 
 - https://golden-stack.now.sh/graphql or https://golden-stack.now.sh/playground
 
+## Project Structure
+
+```tree
+- packages/
+  - server/ (server using graphql)
+  - web-razzle/ (render web using SSR)
+  - web/ (render web using CSR)
+```
+
 ## Tech stack
 
 - React
