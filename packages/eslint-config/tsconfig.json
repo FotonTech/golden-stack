@@ -5,5 +5,5 @@
     "noEmit": true
   },
   "extends": "../../tsconfig.json",
-  "include": ["*","src/*ts", "src/*tsx", "src/**/*ts", "src/**/*tsx", "@types"]
+  "include": ["."]
 }
