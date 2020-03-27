@@ -1,0 +1,27 @@
+{
+  "name": "@golden-stack/app",
+  "version": "0.0.1",
+  "private": true,
+  "main": "__generated__/AppEntry.js",
+  "scripts": {
+    "android": "expo start --android",
+    "postinstall": "expo-yarn-workspaces postinstall",
+    "ios": "expo start --ios",
+    "start": "expo start",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "expo": "^36.0.2",
+    "expo-asset": "~8.0.0",
+    "expo-keep-awake": "^8.0.0",
+    "react": "~16.9.0",
+    "react-dom": "~16.9.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-web": "~0.11.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "babel-preset-expo": "~8.0.0",
+    "expo-cli": "^3.16.1"
+  }
+}
