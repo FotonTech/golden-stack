@@ -12,22 +12,14 @@
   "workspaces": {
     "packages": [
       "packages/*"
-    ],
-    "nohoist": [
-      "**/react-native",
-      "**/react-native/**"
     ]
   },
   "scripts": {
-    "app:android": "yarn workspace @golden-stack/app android",
-    "app:clear": "yarn workspace @golden-stack/app clear",
-    "app:ios": "yarn workspace @golden-stack/app ios",
-    "app:jetify": "yarn workspace @golden-stack/app jetify",
-    "app:pod": "yarn workspace @golden-stack/app pod:install",
-    "app:redirect-ports": "yarn workspace @golden-stack/app redirect-ports",
+    "app:android": "yarn workspace @golden-stack/app expo android",
+    "app:ios": "yarn workspace @golden-stack/app expo ios",
     "app:relay": "yarn workspace @golden-stack/app relay",
-    "app:shake": "yarn workspace @golden-stack/app shake",
     "app:start": "yarn workspace @golden-stack/app start",
+    "app:web": "yarn workspace @golden-stack/app expo start -w",
     "build:server": "yarn workspace @golden-stack/server build",
     "build:web": "yarn workspace @golden-stack/web build",
     "dev": "concurrently -n web,graphql --kill-others \"yarn web\" \"yarn graphql\"",
@@ -69,12 +61,14 @@
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "concurrently": "^5.0.0",
+    "expo-yarn-workspaces": "^1.2.1",
     "husky": "^4.2.1",
     "jest": "^25.1.0",
     "jest-cli": "25.1.0",
     "jest-junit": "^10.0.0",
     "lerna": "^3.20.2",
     "lint-staged": "^10.0.3",
+    "metro-config": "^0.58.0",
     "prettier": "^1.19.1",
     "sort-package-json": "1.22.1",
     "typescript": "^3.7.5"
