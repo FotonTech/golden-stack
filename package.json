@@ -27,6 +27,7 @@
     "lint": "eslint --fix --ext .js,.ts,.tsx",
     "lint:ci": "eslint --quiet --ext .js,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
+    "postinstall": "cd ./packages/expo-app && expo-yarn-workspaces postinstall",
     "prettier": "prettier",
     "relay": "yarn web:relay && yarn web-razzle:relay",
     "startup": "./scripts/startup.sh",
