@@ -1,4 +1,4 @@
-import { CacheConfig, RequestNode, UploadableMap, Variables } from 'relay-runtime';
+import { CacheConfig, RequestParameters, UploadableMap, Variables } from 'relay-runtime';
 
 import fetchWithRetries from './fetchWithRetries';
 
@@ -12,10 +12,10 @@ export const PLATFORM = {
 // Define a function that fetches the results of a request (query/mutation/etc)
 // and returns its results as a Promise:
 const fetchQuery = async (
-  request: RequestNode,
+  request: RequestParameters,
   variables: Variables,
   cacheConfig: CacheConfig,
-  uploadables: UploadableMap | null,
+  uploadables?: UploadableMap | null,
 ) => {
   const body = getRequestBody(request, variables, uploadables);
   const token = localStorage.getItem('token');
@@ -27,7 +27,7 @@ const fetchQuery = async (
   };
 
   try {
-    const response = await fetchWithRetries(process.env.GRAPHQL_URL, {
+    const response = await fetchWithRetries(process.env.GRAPHQL_URL as string, {
       method: 'POST',
       headers,
       body,

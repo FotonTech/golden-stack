@@ -12,7 +12,7 @@ interface ListRecordRemoveUpdaterOptions {
 
 interface ListRecordAddUpdaterOptions {
   parentId: string;
-  item: object;
+  item: Record<string, any>;
   type: string;
   parentFieldName: string;
   store: RecordSourceSelectorProxy;
@@ -22,7 +22,7 @@ interface OptimisticConnectionUpdaterOptions {
   parentId: string;
   store: RecordSourceSelectorProxy;
   connectionName: string;
-  item: object;
+  item: Record<string, any>;
   customNode: any | null;
   itemType: string;
 }
@@ -44,10 +44,10 @@ export const ROOT_ID = 'client:root';
 
 export function listRecordRemoveUpdater({ parentId, itemId, parentFieldName, store }: ListRecordRemoveUpdaterOptions) {
   const parentProxy = store.get(parentId);
-  const items = parentProxy.getLinkedRecords(parentFieldName);
+  const items = parentProxy?.getLinkedRecords(parentFieldName);
 
-  parentProxy.setLinkedRecords(
-    items.filter(record => record._dataID !== itemId),
+  parentProxy?.setLinkedRecords(
+    (items || []).filter(record => record.getDataID() !== itemId),
     parentFieldName,
   );
 }
@@ -60,9 +60,9 @@ export function listRecordAddUpdater({ parentId, item, type, parentFieldName, st
   });
 
   const parentProxy = store.get(parentId);
-  const items = parentProxy.getLinkedRecords(parentFieldName);
+  const items = parentProxy?.getLinkedRecords(parentFieldName);
 
-  parentProxy.setLinkedRecords([...items, node], parentFieldName);
+  parentProxy?.setLinkedRecords([...(items || []), node], parentFieldName);
 }
 
 interface ConnectionUpdaterParams {
@@ -92,6 +92,12 @@ export function connectionUpdater({
 
     const parentProxy = store.get(parentId);
 
+    if (!parentProxy) {
+      // eslint-disable-next-line no-console
+      console.log('maybe you have passed the wrong parentId');
+      return;
+    }
+
     const connection = ConnectionHandler.getConnection(parentProxy, connectionName, filters);
 
     if (!connection) {
@@ -100,11 +106,11 @@ export function connectionUpdater({
       return;
     }
 
-    const newEndCursorOffset = connection.getValue('endCursorOffset');
-    connection.setValue(newEndCursorOffset + 1, 'endCursorOffset');
+    const newEndCursorOffset = connection.getValue('endCursorOffset') as number | undefined | null;
+    connection.setValue((newEndCursorOffset || 0) + 1, 'endCursorOffset');
 
-    const newCount = connection.getValue('count');
-    connection.setValue(newCount + 1, 'count');
+    const newCount = connection.getValue('count') as number | undefined | null;
+    connection.setValue((newCount || 0) + 1, 'count');
 
     if (before) {
       ConnectionHandler.insertEdgeBefore(connection, edge, cursor);
@@ -147,6 +153,13 @@ export function connectionDeleteEdgeUpdater({
   filters,
 }: ConnectionDeleteEdgeUpdaterOptions) {
   const parentProxy = parentId === null ? store.getRoot() : store.get(parentId);
+
+  if (!parentProxy) {
+    // eslint-disable-next-line no-console
+    console.log('maybe you have passed the wrong parentId');
+    return;
+  }
+
   const connection = ConnectionHandler.getConnection(parentProxy, connectionName, filters);
 
   if (!connection) {
@@ -157,8 +170,8 @@ export function connectionDeleteEdgeUpdater({
     return;
   }
 
-  const newCount = connection.getValue('count');
-  connection.setValue(newCount - 1, 'count');
+  const newCount = connection.getValue('count') as number | undefined | null;
+  connection.setValue((newCount || 0) - 1, 'count');
 
   ConnectionHandler.deleteNode(connection, nodeId);
 }
@@ -189,11 +202,11 @@ export function connectionTransferEdgeUpdater({
     }
 
     // new edge cursor stuffs
-    const newEndCursorOffset = destinationConnection.getValue('endCursorOffset');
-    destinationConnection.setValue(newEndCursorOffset + 1, 'endCursorOffset');
+    const newEndCursorOffset = destinationConnection.getValue('endCursorOffset') as number | undefined | null;
+    destinationConnection.setValue((newEndCursorOffset || 0) + 1, 'endCursorOffset');
 
-    const newCount = destinationConnection.getValue('count');
-    destinationConnection.setValue(newCount + 1, 'count');
+    const newCount = destinationConnection.getValue('count') as number | undefined | null;
+    destinationConnection.setValue((newCount || 0) + 1, 'count');
 
     if (before) {
       ConnectionHandler.insertEdgeBefore(destinationConnection, newEdge);

@@ -1,20 +1,20 @@
 import React from 'react';
 import { useRelayEnvironment } from 'react-relay/hooks';
-import { commitMutation } from 'relay-runtime';
+import { commitMutation, Disposable, MutationParameters } from 'relay-runtime';
 
 const { useState, useRef, useCallback, useEffect } = React;
 
-export default function useMutation(mutation) {
+export default function useMutation<T extends MutationParameters>(mutation) {
   const environment = useRelayEnvironment();
   const [isPending, setPending] = useState(false);
-  const requestRef = useRef(null);
+  const requestRef = useRef<Disposable | null>(null);
   const mountedRef = useRef(false);
   const execute = useCallback(
     (config = { variables: {} }) => {
       if (requestRef.current != null) {
         return;
       }
-      const request = commitMutation(environment, {
+      const request = commitMutation<T>(environment, {
         ...config,
         onCompleted: () => {
           if (!mountedRef.current) {
@@ -43,7 +43,9 @@ export default function useMutation(mutation) {
   );
   useEffect(() => {
     mountedRef.current = true;
-    return () => (mountedRef.current = false);
+    return () => {
+      mountedRef.current = false;
+    };
   }, []);
   return [isPending, execute];
 }
