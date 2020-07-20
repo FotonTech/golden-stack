@@ -14,6 +14,8 @@ interface Config {
   isLoading?: boolean;
 }
 
+type RetryFn = () => void;
+
 export default function createQueryRenderer(
   FragmentComponent: React.ComponentType<any>,
   Component: React.ComponentType<any> | null,
@@ -23,8 +25,10 @@ export default function createQueryRenderer(
 
   const getVariables = props => (queriesParams ? queriesParams(props) : config.variables);
 
-  class QueryRendererWrapper extends React.Component<any> {
-    state = {};
+  class QueryRendererWrapper extends React.Component<any, { variables: object }> {
+    state = {
+      variables: {},
+    };
 
     shouldComponentUpdate(nProps) {
       const { location, shouldUpdate } = this.props;
@@ -69,13 +73,15 @@ export default function createQueryRenderer(
               return (
                 <div>
                   <span>{error.toString()}</span>
-                  <button onClick={retry}>Retry</button>
+                  <button onClick={retry as RetryFn}>Retry</button>
                 </div>
               );
             }
 
             if (props) {
-              const fragmentProps = config.getFragmentProps ? config.getFragmentProps(props) : { query: props };
+              const fragmentProps = config.getFragmentProps
+                ? config.getFragmentProps(props as object)
+                : { query: props };
 
               return <FragmentComponent {...this.props} {...fragmentProps} isLoading={false} />;
             }

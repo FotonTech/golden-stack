@@ -1,7 +1,8 @@
-import { CacheConfig, RequestNode, UploadableMap, Variables } from 'relay-runtime';
+import { CacheConfig, RequestParameters, UploadableMap, Variables } from 'relay-runtime';
+import { RelayRefetchProp } from 'react-relay';
 
-export const isMutation = (request: RequestNode) => request.operationKind === 'mutation';
-export const isQuery = (request: RequestNode) => request.operationKind === 'query';
+export const isMutation = (request: RequestParameters) => request.operationKind === 'mutation';
+export const isQuery = (request: RequestParameters) => request.operationKind === 'query';
 export const forceFetch = (cacheConfig: CacheConfig) => !!(cacheConfig && cacheConfig.force);
 
 export const handleData = (response: Response) => {
@@ -13,10 +14,10 @@ export const handleData = (response: Response) => {
   return response.text();
 };
 
-function getRequestBodyWithUploadables(request: RequestNode, variables: Variables, uploadables: UploadableMap) {
+function getRequestBodyWithUploadables(request: RequestParameters, variables: Variables, uploadables: UploadableMap) {
   const formData = new FormData();
   formData.append('name', request.name);
-  formData.append('query', request.text);
+  formData.append('query', request.text as string);
   formData.append('variables', JSON.stringify(variables));
 
   Object.keys(uploadables).forEach(key => {
@@ -28,7 +29,7 @@ function getRequestBodyWithUploadables(request: RequestNode, variables: Variable
   return formData;
 }
 
-function getRequestBodyWithoutUplodables(request: RequestNode, variables: Variables) {
+function getRequestBodyWithoutUploadables(request: RequestParameters, variables: Variables) {
   return JSON.stringify({
     name: request.name,
     query: request.text, // GraphQL text from input
@@ -36,15 +37,15 @@ function getRequestBodyWithoutUplodables(request: RequestNode, variables: Variab
   });
 }
 
-export function getRequestBody(request: RequestNode, variables: Variables, uploadables: UploadableMap | null) {
+export function getRequestBody(request: RequestParameters, variables: Variables, uploadables?: UploadableMap | null) {
   if (uploadables) {
     return getRequestBodyWithUploadables(request, variables, uploadables);
   }
 
-  return getRequestBodyWithoutUplodables(request, variables);
+  return getRequestBodyWithoutUploadables(request, variables);
 }
 
-export const getHeaders = (uploadables: UploadableMap | null) => {
+export const getHeaders = (uploadables?: UploadableMap | null) => {
   if (uploadables) {
     return {
       Accept: '*/*',
@@ -57,7 +58,7 @@ export const getHeaders = (uploadables: UploadableMap | null) => {
   };
 };
 
-export const refetch = (relay, variables = {}, callback: () => void = () => null, options = {}) => {
+export const refetch = (relay: RelayRefetchProp, variables = {}, callback: () => void = () => null, options = {}) => {
   const refetchVariables = fragmentVariables => ({
     ...fragmentVariables,
     ...variables,
