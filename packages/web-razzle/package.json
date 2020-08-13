@@ -37,7 +37,7 @@
     "react-relay-network-modern": "^4.4.0",
     "react-relay-network-modern-ssr": "^1.3.0",
     "relay-runtime": "7.0.0",
-    "serialize-javascript": "^2.1.2",
+    "serialize-javascript": "^4.0.0",
     "styled-components": "^4.4.1",
     "subscriptions-transport-ws": "^0.9.16"
   },
